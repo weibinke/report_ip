@@ -11,6 +11,13 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <title>Report ip</title>
+    <script>
+        // Function to convert UTC time to local time and format it
+        function convertToLocalTime(utcTime) {
+            const utcDate = new Date(utcTime + 'Z'); // Append 'Z' to indicate UTC time
+            return utcDate.toLocaleString(); // Convert to local time string
+        }
+    </script>
 </head>
 <body>
     <h1>Report ip</h1>
@@ -26,7 +33,7 @@ HTML_TEMPLATE = """
             <td>{{ info[0] }}</td>
             <td>{{ info[1] }}</td>
             <td>{{ info[2] }}</td>
-            <td>{{ info[3] }}</td>
+            <td><script>document.write(convertToLocalTime('{{ info[3] }}'));</script></td>
         </tr>
         {% endfor %}
     </table>
