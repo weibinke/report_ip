@@ -10,5 +10,6 @@ python main.py
 
 配置开机自动运行。
 
-
 ## 客户端定期上报
+- 访问：http://127.0.0.1:6222/
+- 上报接口：http://127.0.0.1:6222/report?hostname=[主机名]&internal_ip=[内网IP]
