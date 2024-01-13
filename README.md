@@ -103,7 +103,7 @@ host="weibin_home"
 base_dir=$(cd "$(dirname "$0")"; pwd)
 local_ip=`/sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:"`
 
-url="http://[ip.codeshome.com](http://ip.codeshome.com/):6222/report?hostname=$host&internal_ip=$local_ip"
+url="http://your_server_ip:6222/report?hostname=$host&internal_ip=$local_ip"
 
 echo "report start\n"                                                                                                                                                 
 curl $url
@@ -117,5 +117,3 @@ crontab -e
 在末尾添加一行，内容为：这里的5，表示5分钟执行一次，可以根据自己需要改，sh和log的路径根据自己实际情况来。
 
 */5 * * * * /bin/sh /home/pi/weibin/tools/./auto_update_ip.sh>>/home/pi/weibin/tools/log.txt
-
-3）查看自己的外网ip，可以到http://ip.codeshome.com/ ，这里会打印出所有上报上来的主机的最新外网ip。
