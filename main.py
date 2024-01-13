@@ -10,23 +10,28 @@ HTML_TEMPLATE = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Report ip</title>
+    <title>Report IP</title>
     <script>
-        // Function to convert UTC time to local time and format it
         function convertToLocalTime(utcTime) {
-            const utcDate = new Date(utcTime + 'Z'); // Append 'Z' to indicate UTC time
-            return utcDate.toLocaleString(); // Convert to local time string
+            const utcDate = new Date(utcTime + 'Z');
+            return utcDate.toLocaleString();
+        }
+        function deleteRecord(hostname) {
+            if (confirm('Are you sure you want to delete the record for ' + hostname + '?')) {
+                window.location.href = '/delete?hostname=' + encodeURIComponent(hostname);
+            }
         }
     </script>
 </head>
 <body>
-    <h1>Report ip</h1>
+    <h1>Report IP</h1>
     <table border="1">
         <tr>
             <th>Hostname</th>
             <th>External IP</th>
             <th>Internal IP</th>
             <th>Last Report Time</th>
+            <th>Actions</th>
         </tr>
         {% for info in client_info %}
         <tr>
@@ -34,6 +39,7 @@ HTML_TEMPLATE = """
             <td>{{ info[1] }}</td>
             <td>{{ info[2] }}</td>
             <td><script>document.write(convertToLocalTime('{{ info[3] }}'));</script></td>
+            <td><button onclick="deleteRecord('{{ info[0] }}')">Delete</button></td>
         </tr>
         {% endfor %}
     </table>
@@ -93,6 +99,20 @@ def show():
     client_info = c.fetchall()
     conn.close()
     return render_template_string(HTML_TEMPLATE, client_info=client_info)
+
+@app.route('/delete', methods=['GET'])
+def delete():
+    hostname = request.args.get('hostname', '')
+    if hostname:
+        conn = sqlite3.connect('ip_database.db')
+        c = conn.cursor()
+        c.execute('DELETE FROM client_info WHERE hostname = ?', (hostname,))
+        conn.commit()
+        conn.close()
+        return f'Record for {hostname} deleted successfully!', 200
+    else:
+        return 'No hostname provided for deletion.', 400
+
 
 if __name__ == '__main__':
     init_db()
