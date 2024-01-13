@@ -10,7 +10,7 @@ HTML_TEMPLATE = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Client Information</title>
+    <title>Report ip</title>
 </head>
 <body>
     <h1>Client Information</h1>
