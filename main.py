@@ -13,7 +13,7 @@ HTML_TEMPLATE = """
     <title>Report ip</title>
 </head>
 <body>
-    <h1>Client Information</h1>
+    <h1>Report ip</h1>
     <table border="1">
         <tr>
             <th>Hostname</th>
